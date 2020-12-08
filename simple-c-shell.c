@@ -376,7 +376,8 @@ void welcomeScreen() {
 	printf("\t        ""\x1b[36m""multitext""\x1b[0m""  = Create multiple text files at once\n");
 	printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
 	printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n");
-	printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n\n");
+	printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n");
+	printf("\t        ""\x1b[36m""timer""\x1b[0m""  = can run the timer\n\n");
 	printf("\t        If you want to check these details once again, enter ""\x1b[36m""manual""\x1b[0m""\n\n");
 }
 
@@ -843,7 +844,53 @@ int commandHandler(char* args[]) {
 		printf("close input function\n\n");
 	}
 
-	//'check' command to see the contents in file
+	//'timer' command run the timer.
+	else if (strcmp(args[0], "timer") == 0)
+	{
+		int sec;
+		int min;
+		int real_min;
+		int stop=0;
+		int cycle;
+		int sum=0;
+		int j = 1;
+		int choose;
+		printf("Start timer\n");
+		printf("How many seconds are you going to set up? (Please enter in seconds)\n");
+		scanf("%d", &sec);
+		printf("How long are you going to run it?\n\n");
+		printf("If you want sec time, press 1\n");
+		printf("If you want min time, press 2\n");
+		scanf("%d", &choose);
+		if (choose == 1)
+		{
+			printf("put some sec what you want\n");
+			scanf("%d", &min);
+			printf("\nThis timer outputs the contents in %d seconds intervals for %d sec.\n", sec, min);
+
+		}
+		if (choose == 2)
+		{
+			printf("put some min what you want\n");
+			scanf("%d", &min);
+			printf("\nThis timer outputs the contents in %d seconds intervals for %d minutes.\n", sec, min);
+			min = min * 60;
+		}
+		cycle = min / sec;
+		while (cycle != j)
+		{
+			sleep(sec);
+			sum = sum+sec;
+			printf("%d second has been passed\n", sum);
+			j++;
+		}
+		printf("The timer is terminated.\n");
+		printf("A total of %d sec have passed.\n", min);
+		printf("error range +- %d sec\n\n", sec);
+		printf("It has been printed out a total of %d times.\n", j);
+	}
+
+	//'check' command can check the contents inside
 	else if (strcmp(args[0], "check") == 0 || strcmp(args[0], "che") == 0 || strcmp(args[0], "3") == 0)
 	{
 		char s1[30];
@@ -964,7 +1011,8 @@ int commandHandler(char* args[]) {
 		{
 			printf("\n\t                           Function of time\n");
 			printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
-			printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n\n");
+			printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n");
+			printf("\t        ""\x1b[36m""timer""\x1b[0m""  = can run the timer\n\n");
 		}
 		if (choose == 4)
 		{
@@ -983,7 +1031,8 @@ int commandHandler(char* args[]) {
 			printf("\t        ""\x1b[36m""multitext""\x1b[0m""  = Create multiple text files at once\n");
 			printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
 			printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n");
-			printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n\n");
+			printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n");
+			printf("\t        ""\x1b[36m""timer""\x1b[0m""  = can run the timer\n\n");
 			printf("\t        If you want to check these details once again, enter ""\x1b[36m""manual""\x1b[0m""\n\n");
 		}
 	}
