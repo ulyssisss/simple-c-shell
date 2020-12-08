@@ -26,6 +26,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <termios.h>
+#include <time.h>
 #include "util.h"
 
 #define LIMIT 256 // max number of tokens for a command
@@ -35,6 +36,268 @@
  * Function used to initialize our shell. We used the approach explained in
  * http://www.gnu.org/software/libc/manual/html_node/Initializing-the-Shell.html
  */
+void multitext(void) {
+	int i, x;
+	printf("How many text files do you want to create? : ");
+	scanf("%d", &x);
+	for (i = 1; i <= x; i++) {
+		char filename[15];
+		sprintf(filename, "text%d", i);
+		strcat(filename, ".txt");
+		int fd = open(filename, O_RDWR | O_CREAT, 0700);
+
+		if (fd == -1) {
+			perror("open() fail");
+		}
+		else {
+			lseek(fd, 0, SEEK_SET);
+			close(fd);
+		}
+	}
+}
+
+
+void calculate(void) {
+	double num1 = 0;
+	double num2 = 0;
+	double value = 0;
+	char a = 0;
+
+	printf("Please enter the formula : ");
+	scanf("%lf %c %lf", &num1, &a, &num2);
+
+	switch (a) {  //Set case according to the value of char a
+	case '+': //If the value of char a is +, + operation is performed.
+		value = num1 + num2;
+		printf("%lf %c %lf = %lf", num1, a, num2, value);
+		break;
+	case '-': //If the value of char a is -, - operation is performed.
+		value = num1 - num2;
+		printf("%lf %c %lf = %lf", num1, a, num2, value);
+		break;
+	case '*':  //If the value of char a is *, * operation is performed.
+		value = num1 * num2;
+		printf("%lf %c %lf = %lf", num1, a, num2, value);
+		break;
+	case '/':  //If the value of char a is /, / operation is performed.
+		printf("%lf/%lf = %lf", num1, num2, (double)num1 / num2);
+		break;
+	default:
+		printf("Cannot be calculated");
+		break;
+	}
+	printf("\n");
+}
+
+void rockgame(void)
+{
+	int user, com;
+	srand((int)time(NULL));
+
+	com = rand() % 3;
+	printf(" Please select one of the three options.\n1.Scissors\n2.Rock\n3.Paper\n");
+	scanf("%d", &user);
+
+	if (user == 1)
+	{
+		if (com == 1)
+		{
+			printf("Computer: Scissors\nUser: Scissors\nDraw.\n");
+		}
+		else if (com == 2)
+		{
+			printf("Computer: Rock\nUser: Scissors\nLose.\n");
+		}
+		else
+		{
+			printf("Computer: Paper\nUser: Scissors\nWin.\n");
+		}
+	}
+
+	if (user == 2)
+	{
+		if (com == 1)
+		{
+			printf("Computer: Scissors\nUser: Rock\nWin.\n");
+		}
+		else if (com == 2)
+		{
+			printf("Computer: Rock\nUser: Rock\nDraw.\n");
+		}
+		else
+		{
+			printf("Computer: Paper\nUser: Rock\nLose.\n");
+		}
+	}
+
+	if (user == 3)
+	{
+		if (com == 1)
+		{
+			printf("Computer: Scissors\nUsers: Paper\nLose\n");
+		}
+		else if (com == 2)
+		{
+			printf("Computer: Rock\nUser: Paper\nWin.\n");
+		}
+		else
+		{
+			printf("Computer: Paper\nUser: Paper\nDraw\n");
+		}
+	}
+}
+
+
+// current time
+void nowtime(void)
+{
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	printf("Greenwich Mean Time : %d hour %d minute\n", time_->tm_hour, time_->tm_min);
+}
+
+//Seoul/Tokyo Time
+void repubkor(void)
+{
+	int repubkor;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	repubkor = time_->tm_hour + 9; //Seoul/Tokyo Time
+	if (repubkor > 24)//If more than 24
+		repubkor -= 9;//Parallax application
+	printf("Seoul/Tokyo Current Time : %d hour %d minute\n", repubkor, time_->tm_min);
+}
+
+//Canada time
+void canada(void)
+{
+	int canada;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	canada = time_->tm_hour - 5; //Canada time
+	if (canada < 0)//If less than 0 
+		canada += 5;//Parallax application
+	printf("Canada Current Time : %d hour %d minute\n", canada, time_->tm_min);
+}
+
+//New york time
+void newyork(void)
+{
+	int newyork;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	newyork = time_->tm_hour - 5; //New york time
+	if (newyork < 0)//If less than 0 
+		newyork += 5;//Parallax application
+	printf("New York Current Time : %d hour %d minute\n", newyork, time_->tm_min);
+}
+
+//Los Angeles Time
+void ros(void)
+{
+	int ros;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	ros = time_->tm_hour - 8; //Los Angeles Time
+	if (ros < 0)//If less than 0 
+		ros += 8;//Parallax application
+	printf("Los Angeles Current Time : %d hour %d minute\n", ros, time_->tm_min);
+}
+
+//Sydney current time
+void sydney(void)
+{
+	int sydney;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	sydney = time_->tm_hour + 11; //Sydney current time
+	if (sydney > 24)//If more than 24
+		sydney -= 11;//Parallax application
+	printf("Sydney Current Time : %d hour %d minute\n", sydney, time_->tm_min);
+}
+
+//Hong Kong Current Time
+void hongkong(void)
+{
+	int hongkong;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	hongkong = time_->tm_hour + 8; //Hong Kong Current Time
+	if (hongkong > 24)//If more than 24
+		hongkong -= 8;//Parallax application
+	printf("Hong Kong Current Time : %d hour %d minute\n", hongkong, time_->tm_min);
+}
+
+//Shanghai current time
+void china(void)
+{
+	int china;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	china = time_->tm_hour + 8; //Shanghai current time
+	if (china > 24)//If more than 24
+		china -= 8;//Parallax application
+	printf("Shanghai Current Time : %d hour %d minute\n", china, time_->tm_min);
+}
+
+//Taiwan current time
+void taiwan(void)
+{
+	int taiwan;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	taiwan = time_->tm_hour + 8; //Taiwan current time
+	if (taiwan > 24)//If more than 24
+		taiwan -= 8;//Parallax application
+	printf("Taiwan current time : %d hour %d minute\n", taiwan, time_->tm_min);
+}
+
+//Bangkok current time
+void bangkok(void)
+{
+	int bangkok;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	bangkok = time_->tm_hour + 7; //Bangkok current time
+	if (bangkok > 24)//If more than 24
+		bangkok -= 7;//Parallax application
+	printf("Bangkok Current Time : %d hour %d minute\n", bangkok, time_->tm_min);
+}
+
+//Paris current time
+void paris(void)
+{
+	int paris;
+	time_t now;
+	struct tm* time_;
+	now = time(NULL);
+	time_ = localtime(&now);
+	paris = time_->tm_hour + 1; //Paris current time
+	if (paris > 24)//If more than 24
+		paris -= 1;//Parallax application
+	printf("Paris current time : %d hour %d minute\n", paris, time_->tm_min);
+}
+
 void init(){
 		// See if we are running interactively
         GBSH_PID = getpid();
@@ -89,13 +352,32 @@ void init(){
 /**
  * Method used to print the welcome screen of our shell
  */
-void welcomeScreen(){
-        printf("\n\t============================================\n");
-        printf("\t               Simple C Shell\n");
-        printf("\t--------------------------------------------\n");
-        printf("\t             Licensed under GPLv3:\n");
-        printf("\t============================================\n");
-        printf("\n\n");
+void welcomeScreen() {
+	printf("\n\t============================================\n");
+	printf("\t               Simple C Shell\n");
+	printf("\t--------------------------------------------\n");
+	printf("\t             Licensed under GPLv3:\n");
+	printf("\t============================================\n");
+	printf("\n\n");
+	printf("\t               Function of this program\n");
+	printf("\t============================================\n");
+	printf("\t                     If you write\n");
+	printf("\t        ""\x1b[36m""out""\x1b[0m""  = can get out this shell program\n");
+	printf("\t        ""\x1b[36m""clear""\x1b[0m""  = can clear interface\n");
+	printf("\t        ""\x1b[36m""color""\x1b[0m""  = can change shell prompt color\n");
+	printf("\t        ""\x1b[36m""currentdirectory""\x1b[0m""  = can see current directory\n");
+	printf("\t        ""\x1b[36m""changedirectory""\x1b[0m""  = can change directory\n");
+	printf("\t        ""\x1b[36m""create""\x1b[0m""  = can make a new file\n");
+	printf("\t        ""\x1b[36m""input""\x1b[0m""  = can put some strings in your file\n");
+	printf("\t        ""\x1b[36m""check""\x1b[0m""  = can check the contents inside\n");
+	printf("\t        ""\x1b[36m""delete""\x1b[0m""  = can delete file\n");
+	printf("\t        ""\x1b[36m""calculate""\x1b[0m""  = can calculate formula\n");
+	printf("\t        ""\x1b[36m""rockgame""\x1b[0m""  = can play Rock Scissor Paper game\n");
+	printf("\t        ""\x1b[36m""multitext""\x1b[0m""  = Create multiple text files at once\n");
+	printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
+	printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n");
+	printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n\n");
+	printf("\t        If you want to check these details once again, enter ""\x1b[36m""manual""\x1b[0m""\n\n");
 }
 
 /**
@@ -141,7 +423,7 @@ void shellPrompt(){
  * Method to change directory
  */
 int changeDirectory(char* args[]){
-	// If we write no path (only 'cd'), then go to the home directory
+	// If we write no path (only 'changedirectory'), then go to the home directory
 	if (args[1] == NULL) {
 		chdir(getenv("HOME")); 
 		return 1;
@@ -211,7 +493,6 @@ int manageEnviron(char * args[], int option){
 	}
 	return 0;
 }
- 
 /**
 * Method for launching a program. It can be run in the background
 * or in the foreground
@@ -444,52 +725,408 @@ void pipeHandler(char * args[]){
 /**
 * Method used to handle the commands entered via the standard input
 */ 
-int commandHandler(char * args[]){
+int commandHandler(char* args[]) {
 	int i = 0;
 	int j = 0;
-	
+
 	int fileDescriptor;
 	int standardOut;
-	
+
 	int aux;
 	int background = 0;
-	
-	char *args_aux[256];
-	
+
+	char* args_aux[256];
+
 	// We look for the special characters and separate the command itself
 	// in a new array for the arguments
-	while ( args[j] != NULL){
-		if ( (strcmp(args[j],">") == 0) || (strcmp(args[j],"<") == 0) || (strcmp(args[j],"&") == 0)){
+	while (args[j] != NULL) {
+		if ((strcmp(args[j], ">") == 0) || (strcmp(args[j], "<") == 0) || (strcmp(args[j], "&") == 0)) {
 			break;
 		}
 		args_aux[j] = args[j];
 		j++;
 	}
-	
-	// 'exit' command quits the shell
-	if(strcmp(args[0],"exit") == 0) exit(0);
-	// 'pwd' command prints the current directory
- 	else if (strcmp(args[0],"pwd") == 0){
-		if (args[j] != NULL){
+
+	// 'out' command quits the shell
+	if (strcmp(args[0], "out") == 0 || strcmp(args[0], "o") == 0)
+		exit(0);
+
+	// 'currentdirectory' command prints the current directory
+	else if (strcmp(args[0], "currentdirectory") == 0 || strcmp(args[0], "curd") == 0 || strcmp(args[0], "currentd") == 0)
+	{
+		if (args[j] != NULL) {
 			// If we want file output
-			if ( (strcmp(args[j],">") == 0) && (args[j+1] != NULL) ){
-				fileDescriptor = open(args[j+1], O_CREAT | O_TRUNC | O_WRONLY, 0600); 
+			if ((strcmp(args[j], ">") == 0) && (args[j + 1] != NULL)) {
+				fileDescriptor = open(args[j + 1], O_CREAT | O_TRUNC | O_WRONLY, 0600);
 				// We replace de standard output with the appropriate file
 				standardOut = dup(STDOUT_FILENO); 	// first we make a copy of stdout
 													// because we'll want it back
-				dup2(fileDescriptor, STDOUT_FILENO); 
+				dup2(fileDescriptor, STDOUT_FILENO);
 				close(fileDescriptor);
 				printf("%s\n", getcwd(currentDirectory, 1024));
 				dup2(standardOut, STDOUT_FILENO);
 			}
-		}else{
+		}
+		else {
 			printf("%s\n", getcwd(currentDirectory, 1024));
 		}
-	} 
- 	// 'clear' command clears the screen
-	else if (strcmp(args[0],"clear") == 0) system("clear");
-	// 'cd' command to change directory
-	else if (strcmp(args[0],"cd") == 0) changeDirectory(args);
+	}
+
+	// 'clear' command clean prompt screen
+	else if (strcmp(args[0], "clear") == 0 || strcmp(args[0], "cl") == 0 || strcmp(args[0], "0") == 0)
+		system("clear");
+
+	// 'create' command to create file
+	else if (strcmp(args[0], "create") ==0 || strcmp(args[0], "cr") == 0 || strcmp(args[0], "1") == 0)
+	{
+		char s1[20];
+			int choose;
+			printf("\nstart writing.\n");
+			printf("write your title\n\n");
+			scanf("%s", &s1);
+			printf("\nis it %s?\n\n", s1);
+			printf("if you want, press 1\n");
+			printf("or not, press 2 to stop\n\n");
+			scanf("%d", &choose);
+			printf("\n");
+		if (choose == 1)
+		{
+			printf("create start\n");
+			FILE* fp = fopen(s1, "wt");
+			if (fp = NULL)
+			{
+				puts("there is no file.\n");
+				return -1;
+			}
+			else
+				puts("file has been created.\n");
+			return 0;;
+		}
+		else if (choose == 2)
+			printf("create fail\n");
+
+	}
+
+	//'input' command to insert some contents into file
+	else if (strcmp(args[0], "input") == 0 || strcmp(args[0], "inp") == 0 || strcmp(args[0], "2") == 0)
+	{
+		char s1[20];
+		char s2[100];
+		int choose;
+		printf("\nstart writing.\n");
+		printf("write your title\n\n");
+		scanf("%s", s1);
+		printf("\nyou will write in %s\n\n", s1);
+		FILE* fp = fopen(s1, "w+");
+		printf("please start writing: ");
+		while (1)
+		{
+			scanf(" %[^\n]", s2);
+			printf("\nyou write\n\n");
+			printf("%s\n\n", s2);
+			printf("If it's right, press 1\n");
+			printf("Or, if it's wrong, press 2\n\n");
+			scanf("%d", &choose);
+			if (choose == 1)
+			{
+				printf("\nSave the file\n");
+				fputs(s2, fp);
+				fclose(fp);
+				break;
+			}
+			else if (choose == 2)
+			{
+				printf("Please rewrite it\n");
+				printf("Start: ");
+			}
+		}
+		printf("close input function\n\n");
+	}
+
+	//'check' command to see the contents in file
+	else if (strcmp(args[0], "check") == 0 || strcmp(args[0], "che") == 0 || strcmp(args[0], "3") == 0)
+	{
+		char s1[30];
+		char buffer[30];
+		FILE* fp;
+		int choose;
+		printf("\nstart checking your file\n");
+		while (1)
+		{
+			printf("please write your title\n\n");
+			scanf("%s", s1);
+			printf("\n");
+			fp = fopen(s1, "r");
+			fgets(buffer, sizeof(buffer), fp);
+			printf("Inside the file, there are\n\n");
+			printf("\e[1;34m          [\e[0m");
+			printf("% s", buffer);
+			printf("\e[1;34m]\e[0m\n\n");
+			fclose(fp);
+			printf("\n if you want continue, press 1\n");
+			printf(" Or if you want to close the function, press 2\n\n");
+			scanf("%d", &choose);
+			if (choose == 2)
+			{
+				printf("closed check function\n\n");
+				break;
+			}
+			else if (choose == 1)
+			{
+				printf("checking function will be restart\n\n");
+			}
+		}
+		return 0;
+	}
+
+	//'delete' command to delete some file
+	else if (strcmp(args[0], "delete") == 0 || strcmp(args[0], "del") == 0 || strcmp(args[0], "4") == 0)
+	{
+		char s1[20];
+		int s2;
+		printf("\nstart delete.\n");
+		printf("input filename\n\n");
+		scanf("%s", &s1);
+		printf("Are you sure to earse it?\n\n");
+		printf("if you want, press 1\n");
+		printf("or not, press 2 to stop\n\n");
+		scanf("%d", &s2);
+		printf("\n\n");
+		if (s2 == 1)
+		{
+			printf("\x1b[31myou still have 10 second\n\n");
+			printf("if you don't want to erase, please end this programe\n\n");
+			sleep(10);
+
+			printf("\x1b[0mstart delete\n");
+			FILE* fp;
+			int result = remove(s1);
+			if (result == 0)
+			{
+				printf("delete completed\n\n");
+			}
+			else
+			{
+				printf("delete failed\n\n");
+				printf("please retried function\n\n");
+			}
+		}
+		else if (s2 == 2)
+			printf("end delete programm\n\n");
+	}
+
+	//'multitext' command generate a number of empty text files
+	else if (strcmp(args[0], "multitext") == 0)
+	  {
+	  multitext();
+	  }
+
+	 //'rockgame' command play rock-paper-scissors.
+	else if (strcmp(args[0], "rockgame") == 0)
+	  {
+	  rockgame();
+	  }
+
+	//'calculate' command run the calculator.
+	else if (strcmp(args[0], "calculate") == 0)
+	  {
+	  calculate();
+	  }
+
+	//'manual' command to check some manuals about this shell prompt
+	else if (strcmp(args[0], "manual") == 0)
+	{
+		int choose;
+		printf("\nIf you want to see a function of ""\x1b[36m""interface""\x1b[0m"", press 1\n");
+		printf("If you want to see a function of ""\x1b[36m""file I/O""\x1b[0m"", press 2\n");
+		printf("If you want to see a function of ""\x1b[36m""time""\x1b[0m"", press 3\n");
+		printf("If you want to see them all, press 4\n");
+		scanf("%d", &choose);
+		if (choose == 1)
+		{
+			printf("\n\t                           Function of interface\n");
+			printf("\t        ""\x1b[36m""out""\x1b[0m""  = can get out this shell program\n");
+			printf("\t        ""\x1b[36m""clear""\x1b[0m""  = can clear interface\n");
+			printf("\t        ""\x1b[36m""color""\x1b[0m""  = can change shell prompt color\n");
+			printf("\t        ""\x1b[36m""currentdirectory""\x1b[0m""  = can see current directory\n");
+			printf("\t        ""\x1b[36m""changedirectory""\x1b[0m""  = can change directory\n\n");
+		}
+		if (choose == 2)
+		{
+			printf("\n\t                           Function of file I/O\n");
+			printf("\t        ""\x1b[36m""create""\x1b[0m""  = can make a new file\n");
+			printf("\t        ""\x1b[36m""multitext""\x1b[0m""  = can generate a number of empty text files\n");
+			printf("\t        ""\x1b[36m""input""\x1b[0m""  = can put some strings in your file\n");
+			printf("\t        ""\x1b[36m""check""\x1b[0m""  = can check the contents inside\n");
+			printf("\t        ""\x1b[36m""delete""\x1b[0m""  = can delete file\n\n");
+		}
+		if (choose == 3)
+		{
+			printf("\n\t                           Function of time\n");
+			printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
+			printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n\n");
+		}
+		if (choose == 4)
+		{
+			printf("\n\t                           All function\n");
+			printf("\t        ""\x1b[36m""out""\x1b[0m""  = can get out this shell program\n");
+			printf("\t        ""\x1b[36m""clear""\x1b[0m""  = can clear interface\n");
+			printf("\t        ""\x1b[36m""color""\x1b[0m""  = can change shell prompt color\n");
+			printf("\t        ""\x1b[36m""currentdirectory""\x1b[0m""  = can see current directory\n");
+			printf("\t        ""\x1b[36m""changedirectory""\x1b[0m""  = can change directory\n");			
+			printf("\t        ""\x1b[36m""create""\x1b[0m""  = can make a new file\n");
+			printf("\t        ""\x1b[36m""input""\x1b[0m""  = can put some strings in your file\n");
+			printf("\t        ""\x1b[36m""check""\x1b[0m""  = can check the contents inside\n");
+			printf("\t        ""\x1b[36m""delete""\x1b[0m""  = can delete file\n");
+			printf("\t        ""\x1b[36m""calculate""\x1b[0m""  = can calculate formula\n");
+			printf("\t        ""\x1b[36m""rockgame""\x1b[0m""  = can play Rock Scissor Paper game\n");
+			printf("\t        ""\x1b[36m""multitext""\x1b[0m""  = Create multiple text files at once\n");
+			printf("\t        ""\x1b[36m""worldtime""\x1b[0m""  = can see world timeline\n");
+			printf("\t        ""\x1b[36m""quicktime""\x1b[0m""  = can check time quickly\n");
+			printf("\t        ""\x1b[36m""quickslot""\x1b[0m""  = can check shortcut key\n\n");
+			printf("\t        If you want to check these details once again, enter ""\x1b[36m""manual""\x1b[0m""\n\n");
+		}
+	}
+
+	// 'quickslot' command to find shortcut key
+	else if (strcmp(args[0], "quickslot") == 0)
+	{
+		printf("\n\t                           Shortcut Key\n");
+		printf("\t        ""\x1b[36m""out""\x1b[0m""  -> o\n");
+		printf("\t        ""\x1b[36m""clear""\x1b[0m"" -> cl || number 0 \n");
+		printf("\t        ""\x1b[36m""color""\x1b[0m"" -> col\n");
+		printf("\t        ""\x1b[36m""currentdirectory""\x1b[0m""  -> curd || currentd\n");
+		printf("\t        ""\x1b[36m""changedirectory""\x1b[0m""  -> cd || changedir\n");
+		printf("\t        ""\x1b[36m""create""\x1b[0m"" -> cr || number 1\n");
+		printf("\t        ""\x1b[36m""input""\x1b[0m"" -> inp || number 2\n");
+		printf("\t        ""\x1b[36m""check""\x1b[0m"" -> che || number 3\n");
+		printf("\t        ""\x1b[36m""delete""\x1b[0m"" -> del || number 4\n");
+		printf("\t        ""\x1b[36m""worldtime""\x1b[0m"" -> wtime || number 5\n");
+		printf("\t        ""\x1b[36m""quicktime""\x1b[0m"" -> qtime\n\n");
+	}
+
+	//'worldtime' command to see world time.
+	else if (strcmp(args[0], "worldtime") == 0 || strcmp(args[0], "wtime") == 0|| strcmp(args[0], "5") == 0)
+	{
+		nowtime();
+		repubkor();
+		newyork();
+		ros();
+		canada();
+		bangkok();
+		hongkong();
+		china();
+		taiwan();
+		paris();
+		sydney();
+	}
+
+	//'quicktime' command to check time quickly
+	else if (strcmp(args[0], "quicktime") == 0 || strcmp(args[0], "qtime") == 0)
+	{
+		int choose;
+		printf("\n\t                           What time would you like to see?\n\n");
+		printf("\t        ""\x1b[36m""Nowtime""\x1b[0m""  -> press 1\n");
+		printf("\t        ""\x1b[36m""Republic of Korea""\x1b[0m""  -> press 2\n");
+		printf("\t        ""\x1b[36m""Newyork""\x1b[0m""  -> press 3\n");
+		printf("\t        ""\x1b[36m""Ros Angeles""\x1b[0m""  -> press 4\n");
+		printf("\t        ""\x1b[36m""Canada""\x1b[0m""  -> press 5\n");
+		printf("\t        ""\x1b[36m""Bangkok""\x1b[0m""  -> press 6\n");
+		printf("\t        ""\x1b[36m""Hongkong""\x1b[0m""  -> press 7\n");
+		printf("\t        ""\x1b[36m""China""\x1b[0m""  -> press 8\n");
+		printf("\t        ""\x1b[36m""Taiwan""\x1b[0m""  -> press 9\n");
+		printf("\t        ""\x1b[36m""paris""\x1b[0m""  -> press 10\n");
+		printf("\t        ""\x1b[36m""Sydney""\x1b[0m""  -> press 11\n");
+		scanf("%d", &choose);
+		if (choose == 1)
+		{
+			nowtime();
+		}
+		if (choose == 2)
+		{
+			repubkor();
+		}
+		if (choose == 3)
+		{
+			newyork();
+		}
+		if (choose == 4)
+		{
+			ros();
+		}
+		if (choose == 5)
+		{
+			canada();
+		}
+		if (choose == 6)
+		{
+			bangkok();
+		}
+		if (choose == 7)
+		{
+			hongkong();
+		}
+		if (choose == 8)
+		{
+			china();
+		}
+		if (choose == 9)
+		{
+			taiwan();
+		}
+		if (choose == 10)
+		{
+			paris();
+		}
+		if (choose == 11)
+		{
+			sydney();
+		}
+	}
+
+	//'color' command to change shell prompt color
+	else if (strcmp(args[0], "color") == 0|| strcmp(args[0], "col") == 0)
+	{
+	int choose;
+	printf("\n\t                           You can change shell prompt color\n\n");
+	printf("\n\t                           What color do you want to change it to?\n\n");
+	printf("\t                                   ""\x1b[31m""Red""\x1b[0m" "  -> press 1\n");
+	printf("\t                                   ""\x1b[32m""Green""\x1b[0m""  -> press 2\n");
+	printf("\t                                   ""\x1b[33m""Yellow""\x1b[0m""  -> press 3\n");
+	printf("\t                                   ""\x1b[34m""Blue""\x1b[0m""  -> press 4\n");
+	printf("\t                                   ""\x1b[37m""White""\x1b[0m""  -> press 5\n");
+	printf("\t                                   ""\x1b[37;1m""Bright White""\x1b[0m""  -> press 6\n");
+	scanf("%d", &choose);
+	if (choose == 1)
+	{
+		printf("\n\t                                   ""\x1b[31m""It will change to red.\n\n");
+	}
+	if (choose == 2)
+	{
+		printf("\n\t                                   ""\x1b[32m""It will change to green.\n\n");
+	}
+	if (choose == 3)
+	{
+		printf("\n\t                                   ""\x1b[33m""It will change to yellow.\n\n");
+	}
+	if (choose == 4)
+	{
+		printf("\n\t                                   ""\x1b[34m""It will change to blue.\n\n");
+	}
+	if (choose == 5)
+	{
+		printf("\n\t                                   ""\x1b[37m""It will change to white.\n\n");
+	}
+	if (choose == 6)
+	{
+		printf("\n\t                                   ""\x1b[37;1m""It will change to bright white.\n\n");
+	}
+	}
+
+	//'changeDirectory' command to change directory.
+	else if (strcmp(args[0],"changedirectory") == 0|| strcmp(args[0], "cd") == 0|| strcmp(args[0], "changedir") == 0)
+		changeDirectory(args);
+	
 	// 'environ' command to list the environment variables
 	else if (strcmp(args[0],"environ") == 0){
 		if (args[j] != NULL){
@@ -557,24 +1194,14 @@ int commandHandler(char * args[]){
 			}
 			i++;
 		}
-		// We launch the program with our method, indicating if we
-		// want background execution or not
 		args_aux[i] = NULL;
 		launchProg(args_aux,background);
 		
-		/**
-		 * For the part 1.e, we only had to print the input that was not
-		 * 'exit', 'pwd' or 'clear'. We did it the following way
-		 */
-		//	i = 0;
-		//	while(args[i]!=NULL){
-		//		printf("%s\n", args[i]);
-		//		i++;
-		//	}
+		 //'out', 'currentdirectory' , 'clear'.
+
 	}
 return 1;
 }
-
 
 /**
 * Main method of our shell
@@ -597,10 +1224,12 @@ int main(int argc, char *argv[], char ** envp) {
 	environ = envp;
 	
 	// We set shell=<pathname>/simple-c-shell as an environment variable for
+
 	// the child
 	setenv("shell",getcwd(currentDirectory, 1024),1);
 	
 	// Main loop, where the user input will be read and the prompt
+
 	// will be printed
 	while(TRUE){
 		// We print the shell prompt if necessary
